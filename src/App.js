@@ -57,10 +57,16 @@ const useStyles = createUseStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     marginBottom: 80,
+    color: "#2266dd",
+    padding: [20, 50],
+    background: "#fff",
+    boxShadow: [0, 0, 10, "rgba(0, 0, 0, 0.1)"],
+    borderRadius: 30,
   },
   title: {
     margin: [0, 0, 15],
     fontSize: 50,
+    lineHeight: "50px",
     fontWeight: 800,
   },
   description: {
@@ -149,7 +155,7 @@ function App(props) {
                 <h1 className={classes.title}>SlapSticker</h1>
                 <p className={classes.description}>
                   Have you ever said something so dumb, you just wanted to slap
-                  yourself? Well now you can!
+                  yourself? Well now you can! 🤦
                 </p>
               </section>
               <section className={classes.section}>
