@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { createUseStyles } from "react-jss";
 import { useWebcamCapture } from "./useWebcamCapture";
-import logo from "./slap.png";
+import img1 from "./assets/slap.png";
+import img2 from "./assets/clown.png";
+import img3 from "./assets/hand.png";
+import img4 from "./assets/hand 2.png";
 import { Link, Switch, Route } from "react-router-dom";
 
 const useStyles = createUseStyles((theme) => ({
@@ -90,6 +93,16 @@ const useStyles = createUseStyles((theme) => ({
     padding: [8, 10],
     fontSize: 12,
   },
+  stikers: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  stickerButton: {
+    marginRight: 10,
+    "&:last-child": {
+      marginRight: 0,
+    },
+  },
   stickerImage: {
     height: "4rem",
   },
@@ -111,7 +124,7 @@ const useStyles = createUseStyles((theme) => ({
   },
 }));
 
-const stickers = [logo].map((url) => {
+const stickers = [img1, img2, img3, img4].map((url) => {
   const img = document.createElement("img");
   img.src = url;
   return { img, url };
@@ -155,7 +168,7 @@ function App(props) {
                 <h1 className={classes.title}>SlapSticker</h1>
                 <p className={classes.description}>
                   Have you ever said something so dumb, you just wanted to slap
-                  yourself? Well now you can! 🤦
+                  yourself? Well now you can! 👋
                 </p>
               </section>
               <section className={classes.section}>
@@ -173,9 +186,17 @@ function App(props) {
                 <span className={classes.sectionTitle}>
                   Step 2: Select your sticker
                 </span>
-                <button onClick={() => setSticker(stickers[0])}>
-                  <img className={classes.stickerImage} src={stickers[0].url} />
-                </button>
+                <div className={classes.stickers}>
+                  {stickers.map((el) => (
+                    <button
+                      className={classes.stickerButton}
+                      onClick={() => setSticker(el)}
+                      key={el.url}
+                    >
+                      <img className={classes.stickerImage} src={el.url} />
+                    </button>
+                  ))}
+                </div>
               </section>
               <section className={classes.section}>
                 <span className={classes.sectionTitle}>
