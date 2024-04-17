@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createUseStyles } from "react-jss";
 import { useWebcamCapture } from "./useWebcamCapture";
 import logo from "./slap.png";
-import { Link, Switch, Route, Redirect } from "react-router-dom";
+import { Link, Switch, Route } from "react-router-dom";
 
 const useStyles = createUseStyles((theme) => ({
   "@global body": {
@@ -12,17 +12,20 @@ const useStyles = createUseStyles((theme) => ({
   },
 
   app: {
-    maxWidth: "800px",
-    minHeight: "600px",
-    margin: "auto",
-    padding: "20px",
+    minHeight: "100vh",
     background: theme.palette.primary,
     fontFamily: "'Libre Franklin', sans-serif",
     "& a": {
       color: theme.palette.text,
     },
   },
+  wrapper: {
+    margin: "auto",
+    maxWidth: "800px",
+    padding: "20px",
+  },
   header: {
+    marginBottom: 30,
   },
   nav: {
     display: "flex",
@@ -32,7 +35,7 @@ const useStyles = createUseStyles((theme) => ({
     margin: 0,
   },
   navList: {
-    display:"flex",
+    display: "flex",
     listStyle: "none",
     margin: 0,
   },
@@ -49,27 +52,43 @@ const useStyles = createUseStyles((theme) => ({
     },
   },
   main: {},
-  camera: {
-    background: theme.palette.secondary,
-
-    "& canvas": {
-      width: "100%",
-      height: "auto",
-    },
-    "& video": {
-      display: "none",
-    },
+  intro: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginBottom: 80,
   },
-  stickers: {
-    "& img": {
-      height: "4rem",
-    },
+  title: {
+    margin: [0, 0, 15],
+    fontSize: 50,
+    fontWeight: 800,
   },
-  gallery: {
-    "& img": {
-      height: "16rem",
-    },
+  description: {
+    margin: 0,
+    fontSize: 18,
   },
+  sectionTitle: {
+    marginBottom: 15,
+  },
+  section: {
+    marginBottom: 30,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  nameInput: {
+    width: 300,
+    height: 20,
+    border: "none",
+    borderRadius: 100,
+    padding: [8, 10],
+    fontSize: 12,
+  },
+  stickerImage: {
+    height: "4rem",
+  },
+  video: { display: "none" },
+  canvas: { width: "100%", height: "auto" },
   picture: {
     background: "black",
     padding: 4,
@@ -79,6 +98,9 @@ const useStyles = createUseStyles((theme) => ({
       padding: 8,
       textAlign: "center",
       width: "100%",
+    },
+    "& img": {
+      height: "16rem",
     },
   },
 }));
@@ -107,67 +129,79 @@ function App(props) {
 
   return (
     <div className={classes.app}>
-      <header className={classes.header}>
-        <nav className={classes.nav}>
-          <ul className={classes.navList}>
-            <li className={classes.navListItem}>
-              <Link to="/">Home</Link>
-            </li>
-            <li className={classes.navListItem}>
-              <Link to="/about">About</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
-      <Switch>
-        <Route exact path="/" >
-          <main className={classes.main}>
-            <section>
-              <h1>SlapSticker</h1>
-              <p>
-                Have you ever said something so dumb, you just wanted to slap
-                yourself? Well now you can!
-              </p>
-            </section>
-            <section className={classes.gallery}>
-              Step one: Give it a name
-              <input
-                type="text"
-                value={title}
-                onChange={(ev) => setTitle(ev.target.value)}
-              />
-            </section>
-            <section className={classes.stickers}>
-              Step 2: select your sticker...
-              <button onClick={() => setSticker(stickers[0])}>
-                <img src={stickers[0].url} />
-              </button>
-            </section>
-            <section className={classes.camera}>
-              Step three: Slap your self!
-              <video ref={handleVideoRef} />
-              <canvas
-                ref={handleCanvasRef}
-                width={2}
-                height={2}
-                onClick={handleCapture}
-              />
-            </section>
-            <section className={classes.gallery}>
-              Step 4: Cherish this moment forever
-              {picture && (
-                <div className={classes.picture}>
-                  <img src={picture.dataUri} />
-                  <h3>{picture.title}</h3>
-                </div>
-              )}
-            </section>
-          </main>
-        </Route>
-        <Route path="/about">
-       <div>about page</div>
-        </Route>
-      </Switch>
+      <div className={classes.wrapper}>
+        <header className={classes.header}>
+          <nav className={classes.nav}>
+            <ul className={classes.navList}>
+              <li className={classes.navListItem}>
+                <Link to="/">Home</Link>
+              </li>
+              <li className={classes.navListItem}>
+                <Link to="/about">About</Link>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        <Switch>
+          <Route exact path="/">
+            <main className={classes.main}>
+              <section className={classes.intro}>
+                <h1 className={classes.title}>SlapSticker</h1>
+                <p className={classes.description}>
+                  Have you ever said something so dumb, you just wanted to slap
+                  yourself? Well now you can!
+                </p>
+              </section>
+              <section className={classes.section}>
+                <span className={classes.sectionTitle}>
+                  Step 1: Give it a name
+                </span>
+                <input
+                  className={classes.nameInput}
+                  type="text"
+                  value={title}
+                  onChange={(ev) => setTitle(ev.target.value)}
+                />
+              </section>
+              <section className={classes.section}>
+                <span className={classes.sectionTitle}>
+                  Step 2: Select your sticker
+                </span>
+                <button onClick={() => setSticker(stickers[0])}>
+                  <img className={classes.stickerImage} src={stickers[0].url} />
+                </button>
+              </section>
+              <section className={classes.section}>
+                <span className={classes.sectionTitle}>
+                  Step 3: Slap yourself!
+                </span>
+                <video ref={handleVideoRef} className={classes.video} />
+                <canvas
+                  ref={handleCanvasRef}
+                  width={2}
+                  height={2}
+                  onClick={handleCapture}
+                  className={classes.canvas}
+                />
+              </section>
+              <section className={classes.section}>
+                <span className={classes.sectionTitle}>
+                  Step 4: Cherish this moment forever
+                </span>
+                {picture && (
+                  <div className={classes.picture}>
+                    <img src={picture.dataUri} />
+                    <h3>{picture.title}</h3>
+                  </div>
+                )}
+              </section>
+            </main>
+          </Route>
+          <Route path="/about">
+            <div>about page</div>
+          </Route>
+        </Switch>
+      </div>
     </div>
   );
 }
