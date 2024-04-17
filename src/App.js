@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { createUseStyles } from "react-jss";
 import { useWebcamCapture } from "./useWebcamCapture";
-// import logo from './logo.svg'
 import logo from "./slap.png";
-
 import { Link, Switch, Route, Redirect } from "react-router-dom";
 
 const useStyles = createUseStyles((theme) => ({
@@ -13,24 +11,45 @@ const useStyles = createUseStyles((theme) => ({
     fontFamily: "sans-serif",
   },
 
-  App: {
-    padding: "20px",
-    background: theme.palette.primary,
+  app: {
     maxWidth: "800px",
     minHeight: "600px",
     margin: "auto",
+    padding: "20px",
+    background: theme.palette.primary,
+    fontFamily: "'Libre Franklin', sans-serif",
     "& a": {
       color: theme.palette.text,
     },
   },
-  Header: {
-    "&  h1": {
-      fontFamily: "sans-serif",
+  header: {
+  },
+  nav: {
+    display: "flex",
+    justifyContent: "flex-end",
+    flexWrap: "nowrap",
+    padding: 0,
+    margin: 0,
+  },
+  navList: {
+    display:"flex",
+    listStyle: "none",
+    margin: 0,
+  },
+  navListItem: {
+    "& a": {
+      textDecoration: "none",
+    },
+    "& :hover": {
       cursor: "pointer",
-      fontSize: "4rem",
+      textDecoration: "underline",
+    },
+    "& :first-child": {
+      marginRight: 10,
     },
   },
-  Main: {
+  main: {},
+  camera: {
     background: theme.palette.secondary,
 
     "& canvas": {
@@ -41,17 +60,17 @@ const useStyles = createUseStyles((theme) => ({
       display: "none",
     },
   },
-  Stickers: {
+  stickers: {
     "& img": {
       height: "4rem",
     },
   },
-  Gallery: {
+  gallery: {
     "& img": {
       height: "16rem",
     },
   },
-  Picture: {
+  picture: {
     background: "black",
     padding: 4,
     position: "relative",
@@ -87,25 +106,30 @@ function App(props) {
   ] = useWebcamCapture(sticker?.img, title);
 
   return (
-    <div className={classes.App}>
-      <header className={classes.Header}>
-        <h1>SlapSticker</h1>
-        <p>
-          Have you ever said something so dumb, you just wanted to slap
-          yourself? Well now you can!
-        </p>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">home</Link>
+    <div className={classes.app}>
+      <header className={classes.header}>
+        <nav className={classes.nav}>
+          <ul className={classes.navList}>
+            <li className={classes.navListItem}>
+              <Link to="/">Home</Link>
+            </li>
+            <li className={classes.navListItem}>
+              <Link to="/about">About</Link>
             </li>
           </ul>
         </nav>
       </header>
       <Switch>
-        <Route path="/" exact>
-          <main>
-            <section className={classes.Gallery}>
+        <Route exact path="/" >
+          <main className={classes.main}>
+            <section>
+              <h1>SlapSticker</h1>
+              <p>
+                Have you ever said something so dumb, you just wanted to slap
+                yourself? Well now you can!
+              </p>
+            </section>
+            <section className={classes.gallery}>
               Step one: Give it a name
               <input
                 type="text"
@@ -113,13 +137,13 @@ function App(props) {
                 onChange={(ev) => setTitle(ev.target.value)}
               />
             </section>
-            <section className={classes.Stickers}>
+            <section className={classes.stickers}>
               Step 2: select your sticker...
               <button onClick={() => setSticker(stickers[0])}>
                 <img src={stickers[0].url} />
               </button>
             </section>
-            <section className={classes.Main}>
+            <section className={classes.camera}>
               Step three: Slap your self!
               <video ref={handleVideoRef} />
               <canvas
@@ -129,10 +153,10 @@ function App(props) {
                 onClick={handleCapture}
               />
             </section>
-            <section className={classes.Gallery}>
+            <section className={classes.gallery}>
               Step 4: Cherish this moment forever
               {picture && (
-                <div className={classes.Picture}>
+                <div className={classes.picture}>
                   <img src={picture.dataUri} />
                   <h3>{picture.title}</h3>
                 </div>
@@ -140,7 +164,9 @@ function App(props) {
             </section>
           </main>
         </Route>
-        <Redirect to="/" />
+        <Route path="/about">
+       <div>about page</div>
+        </Route>
       </Switch>
     </div>
   );
