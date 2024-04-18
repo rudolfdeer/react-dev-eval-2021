@@ -119,8 +119,14 @@ const useStyles = createUseStyles((theme) => ({
       width: "100%",
     },
     "& img": {
-      height: "16rem",
+      maxWidth: "100%",
     },
+  },
+  gallery: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    columnGap: 10,
+    rowGap: 15,
   },
 }));
 
@@ -148,7 +154,7 @@ function App(props) {
   ] = useWebcamCapture(sticker?.img, title);
 
   useEffect(() => {
-    if (picture) setPictures([...pictures, picture]);
+    if (picture) setPictures([picture, ...pictures]);
   }, [picture]);
 
   return (
@@ -220,13 +226,15 @@ function App(props) {
                 <span className={classes.sectionTitle}>
                   Step 4: Cherish this moment forever
                 </span>
-                {picture &&
-                  pictures.map((pic) => (
-                    <div className={classes.picture} key={pic.dataUri}>
-                      <img src={pic.dataUri} />
-                      <h3>{pic.title}</h3>
-                    </div>
-                  ))}
+                <div className={classes.gallery}>
+                  {picture &&
+                    pictures.slice(0,4).map((pic) => (
+                      <div className={classes.picture} key={pic.dataUri}>
+                        <img src={pic.dataUri} />
+                        <h3>{pic.title}</h3>
+                      </div>
+                    ))}
+                </div>
               </section>
             </main>
           </Route>
