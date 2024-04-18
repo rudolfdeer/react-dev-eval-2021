@@ -109,24 +109,64 @@ const useStyles = createUseStyles((theme) => ({
   video: { display: "none" },
   canvas: { width: "100%", height: "auto" },
   picture: {
-    background: "black",
-    padding: 4,
+    background: "white",
+    borderRadius: 30,
     position: "relative",
-    display: "inline-block",
     "& h3": {
       padding: 8,
       textAlign: "center",
       width: "100%",
+      color: "black",
+      margin: 0,
     },
     "& img": {
       maxWidth: "100%",
+      borderRadius: [30, 30, 0, 0],
+    },
+
+    "& a": {
+      position: "relative",
     },
   },
+
   gallery: {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
     columnGap: 10,
     rowGap: 15,
+  },
+  overlay: {
+    position: "absolute",
+    bottom: 0,
+    borderRadius: 30,
+    background: "rgba(0, 0, 0, 0.5)",
+    color: "#f1f1f1",
+    width: "100%",
+    height: "100%",
+    opacity: 0,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+
+    "&:hover": {
+      opacity: 1,
+    },
+
+    " & a": {
+      position: "absolute",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+
+    "& img": {
+      width: 70,
+      height: 70,
+
+      "&:hover": {
+        cursor: "pointer",
+      },
+    },
   },
 }));
 
@@ -228,10 +268,15 @@ function App(props) {
                 </span>
                 <div className={classes.gallery}>
                   {picture &&
-                    pictures.slice(0,4).map((pic) => (
+                    pictures.slice(0, 4).map((pic) => (
                       <div className={classes.picture} key={pic.dataUri}>
                         <img src={pic.dataUri} />
                         <h3>{pic.title}</h3>
+                        <div className={classes.overlay}>
+                          <a href={pic.dataUri} download>
+                            <img src={"/assets/download.png"} />
+                          </a>
+                        </div>
                       </div>
                     ))}
                 </div>
