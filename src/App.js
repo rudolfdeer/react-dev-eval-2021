@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
 import { useWebcamCapture } from "./useWebcamCapture";
 import img1 from "./assets/slap.png";
@@ -137,6 +137,7 @@ function App(props) {
   const [sticker, setSticker] = useState();
   // title for the picture that will be captured
   const [title, setTitle] = useState("SLAPPE!");
+  const [pictures, setPictures] = useState([]);
 
   // webcam behavior hook
   const [
@@ -145,6 +146,10 @@ function App(props) {
     handleCapture, // callback function to trigger taking the picture
     picture, // latest captured picture data object
   ] = useWebcamCapture(sticker?.img, title);
+
+  useEffect(() => {
+    if (picture) setPictures([...pictures, picture]);
+  }, [picture]);
 
   return (
     <div className={classes.app}>
@@ -215,12 +220,13 @@ function App(props) {
                 <span className={classes.sectionTitle}>
                   Step 4: Cherish this moment forever
                 </span>
-                {picture && (
-                  <div className={classes.picture}>
-                    <img src={picture.dataUri} />
-                    <h3>{picture.title}</h3>
-                  </div>
-                )}
+                {picture &&
+                  pictures.map((pic) => (
+                    <div className={classes.picture} key={pic.dataUri}>
+                      <img src={pic.dataUri} />
+                      <h3>{pic.title}</h3>
+                    </div>
+                  ))}
               </section>
             </main>
           </Route>
