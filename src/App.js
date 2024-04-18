@@ -258,7 +258,10 @@ function App(props) {
                   ref={handleCanvasRef}
                   width={2}
                   height={2}
-                  onClick={handleCapture}
+                  onClick={() => {
+                    handleCapture();
+                    setSticker(null);
+                  }}
                   className={classes.canvas}
                 />
               </section>
