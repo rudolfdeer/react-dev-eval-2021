@@ -40,14 +40,35 @@ const useStyles = createUseStyles(() => ({
     marginRight: 10,
     fontSize: 15,
   },
+  sectionNumber: {
+    position: "absolute",
+    left: 25,
+    top: -25,
+    width: 50,
+    height: 50,
+    fontSize: 30,
+    borderRadius: 50,
+    backgroundColor: "#2266dd",
+    color: "white",
+    fontWeight: "bold",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   section: {
+    position: "relative",
     marginBottom: 30,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    padding: [20, 50],
+    background: "#fff",
+    boxShadow: [0, 0, 10, "rgba(0, 0, 0, 0.1)"],
+    borderRadius: 30,
+    color: "black",
   },
   nameInput: {
-    width: 300,
+    width: 200,
     height: 20,
     border: "none",
     borderRadius: 100,
@@ -76,6 +97,7 @@ const useStyles = createUseStyles(() => ({
     background: "white",
     borderRadius: 30,
     position: "relative",
+    border: "black solid 0.6px",
     "& h3": {
       padding: 8,
       textAlign: "center",
@@ -87,7 +109,6 @@ const useStyles = createUseStyles(() => ({
       maxWidth: "100%",
       borderRadius: [30, 30, 0, 0],
     },
-
     "& a": {
       position: "relative",
     },
@@ -110,7 +131,6 @@ const useStyles = createUseStyles(() => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-
     "&:hover": {
       opacity: 1,
     },
@@ -129,10 +149,10 @@ const useStyles = createUseStyles(() => ({
       },
     },
   },
-  cameraOffScreen: {},
   flexContainer: {
     display: "flex",
     alignItems: "center",
+    justifyContent: "space-between",
     marginBottom: 20,
   },
 }));
@@ -148,15 +168,9 @@ function HomePage(props) {
   const [sticker, setSticker] = useState();
   const [title, setTitle] = useState("SLAPPE!");
   const [pictures, setPictures] = useState([]);
-
   const [isCameraOn, setIsCameraOn] = useState(false);
-
-  const [
-    handleVideoRef, // callback function to set ref for invisible video element
-    handleCanvasRef, // callback function to set ref for main canvas element
-    handleCapture, // callback function to trigger taking the picture
-    picture, // latest captured picture data object
-  ] = useWebcamCapture(sticker?.img, title);
+  const [handleVideoRef, handleCanvasRef, handleCapture, picture] =
+    useWebcamCapture(sticker?.img, title);
 
   useEffect(() => {
     if (picture) setPictures([picture, ...pictures]);
@@ -172,6 +186,7 @@ function HomePage(props) {
         </p>
       </section>
       <section className={classes.section}>
+        <span className={classes.sectionNumber}>1</span>
         <h2 className={classes.sectionTitle}>Step 1: Give it a name</h2>
         <input
           className={classes.nameInput}
@@ -181,6 +196,7 @@ function HomePage(props) {
         />
       </section>
       <section className={classes.section}>
+      <span className={classes.sectionNumber}>2</span>
         <h2 className={classes.sectionTitle}>Step 2: Select your sticker</h2>
         <div className={classes.stickers}>
           {stickers.map((el) => (
@@ -195,12 +211,13 @@ function HomePage(props) {
         </div>
       </section>
       <section className={classes.section}>
+      <span className={classes.sectionNumber}>3</span>
         <h2 className={classes.sectionTitle}>Step 3: Slap yourself!</h2>
         <div className={classes.flexContainer}>
           <span className={classes.sectionSubTitle}>Enable your camera: </span>
           <Toggle isChecked={isCameraOn} setIsCameraOn={setIsCameraOn} />
         </div>
-        {isCameraOn ? (
+        {isCameraOn && (
           <>
             <video ref={handleVideoRef} className={classes.video} />
             <canvas
@@ -214,14 +231,13 @@ function HomePage(props) {
               className={classes.canvas}
             />
           </>
-        ) : (
-          <div className={classes.cameraOffScreen}></div>
         )}
       </section>
       {picture && (
         <section className={classes.section}>
+          <span className={classes.sectionNumber}>4</span>
           <h2 className={classes.sectionTitle}>
-            Step 4: Cherish this moment forever
+            Step 4: Cherish this moment forever 📷
           </h2>
           <div className={classes.gallery}>
             {pictures.slice(0, 4).map((pic) => (
