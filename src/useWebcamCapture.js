@@ -48,7 +48,20 @@ export const useWebcamCapture = (stickerImg, title) => {
       setInitialized(true);
     } else if (!videoRef || !canvasRef) {
       setInitialized(false);
+    };
+
+
+    return () => {
+      if (videoRef && videoRef.srcObject) {
+        (videoRef.srcObject).getTracks().forEach((track) => {
+          if (track.readyState === 'live') {
+            track.stop()
+          }
+        })
+      }
     }
+
+
   }, [videoRef, canvasRef, initialized]);
 
   const mousePos = useRef({ x: 0, y: 0 });
