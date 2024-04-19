@@ -6,6 +6,7 @@ import img2 from "../assets/clown.png";
 import img3 from "../assets/hand.png";
 import img4 from "../assets/hand 2.png";
 import download from "../assets/download.png";
+import Toggle from "./Toggle";
 
 const useStyles = createUseStyles(() => ({
   intro: {
@@ -30,7 +31,14 @@ const useStyles = createUseStyles(() => ({
     fontSize: 18,
   },
   sectionTitle: {
+    margin: 0,
     marginBottom: 15,
+    fontSize: 16,
+    fontWeight: "normal",
+  },
+  sectionSubTitle: {
+    marginRight: 10,
+    fontSize: 15,
   },
   section: {
     marginBottom: 30,
@@ -54,6 +62,9 @@ const useStyles = createUseStyles(() => ({
     marginRight: 10,
     "&:last-child": {
       marginRight: 0,
+    },
+    "&:hover": {
+      cursor: "pointer",
     },
   },
   stickerImage: {
@@ -118,6 +129,12 @@ const useStyles = createUseStyles(() => ({
       },
     },
   },
+  cameraOffScreen: {},
+  flexContainer: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: 20,
+  },
 }));
 
 const stickers = [img1, img2, img3, img4].map((url) => {
@@ -131,6 +148,9 @@ function HomePage(props) {
   const [sticker, setSticker] = useState();
   const [title, setTitle] = useState("SLAPPE!");
   const [pictures, setPictures] = useState([]);
+
+  const [isCameraOn, setIsCameraOn] = useState(false);
+
   const [
     handleVideoRef, // callback function to set ref for invisible video element
     handleCanvasRef, // callback function to set ref for main canvas element
@@ -152,7 +172,7 @@ function HomePage(props) {
         </p>
       </section>
       <section className={classes.section}>
-        <span className={classes.sectionTitle}>Step 1: Give it a name</span>
+        <h2 className={classes.sectionTitle}>Step 1: Give it a name</h2>
         <input
           className={classes.nameInput}
           type="text"
@@ -161,9 +181,7 @@ function HomePage(props) {
         />
       </section>
       <section className={classes.section}>
-        <span className={classes.sectionTitle}>
-          Step 2: Select your sticker
-        </span>
+        <h2 className={classes.sectionTitle}>Step 2: Select your sticker</h2>
         <div className={classes.stickers}>
           {stickers.map((el) => (
             <button
@@ -177,24 +195,34 @@ function HomePage(props) {
         </div>
       </section>
       <section className={classes.section}>
-        <span className={classes.sectionTitle}>Step 3: Slap yourself!</span>
-        <video ref={handleVideoRef} className={classes.video} />
-        <canvas
-          ref={handleCanvasRef}
-          width={2}
-          height={2}
-          onClick={() => {
-            handleCapture();
-            setSticker(null);
-          }}
-          className={classes.canvas}
-        />
+        <h2 className={classes.sectionTitle}>Step 3: Slap yourself!</h2>
+        <div className={classes.flexContainer}>
+          <span className={classes.sectionSubTitle}>Enable your camera: </span>
+          <Toggle isChecked={isCameraOn} setIsCameraOn={setIsCameraOn} />
+        </div>
+        {isCameraOn ? (
+          <>
+            <video ref={handleVideoRef} className={classes.video} />
+            <canvas
+              ref={handleCanvasRef}
+              width={2}
+              height={2}
+              onClick={() => {
+                handleCapture();
+                setSticker(null);
+              }}
+              className={classes.canvas}
+            />
+          </>
+        ) : (
+          <div className={classes.cameraOffScreen}></div>
+        )}
       </section>
       {picture && (
         <section className={classes.section}>
-          <span className={classes.sectionTitle}>
+          <h2 className={classes.sectionTitle}>
             Step 4: Cherish this moment forever
-          </span>
+          </h2>
           <div className={classes.gallery}>
             {pictures.slice(0, 4).map((pic) => (
               <div className={classes.picture} key={pic.dataUri}>
