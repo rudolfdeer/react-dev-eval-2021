@@ -3,18 +3,18 @@ import { Link, Switch, Route } from "react-router-dom";
 import AboutPage from "./AboutPage";
 import HomePage from "./HomePage";
 
-const useStyles = createUseStyles((theme) => ({
+const useStyles = createUseStyles({
   "@global body": {
-    background: theme.palette.background,
-    color: theme.palette.text,
+    background: "#eee",
+    color: "#fff",
     fontFamily: "sans-serif",
   },
   app: {
     minHeight: "100vh",
-    background: theme.palette.primary,
+    background: "#2266dd",
     fontFamily: "'Libre Franklin', sans-serif",
     "& a": {
-      color: theme.palette.text,
+      color: "#fff",
     },
   },
   wrapper: {
@@ -49,7 +49,7 @@ const useStyles = createUseStyles((theme) => ({
       marginRight: 10,
     },
   },
-}));
+});
 
 function App(props) {
   const classes = useStyles(props);

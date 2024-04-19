@@ -8,7 +8,7 @@ import img4 from "../assets/hand 2.png";
 import download from "../assets/download.png";
 import Toggle from "./Toggle";
 
-const useStyles = createUseStyles(() => ({
+const useStyles = createUseStyles({
   intro: {
     display: "flex",
     flexDirection: "column",
@@ -33,8 +33,10 @@ const useStyles = createUseStyles(() => ({
   sectionTitle: {
     margin: 0,
     marginBottom: 15,
-    fontSize: 16,
-    fontWeight: "normal",
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#2266dd",
+    letterSpacing: ".05rem",
   },
   sectionSubTitle: {
     marginRight: 10,
@@ -42,11 +44,11 @@ const useStyles = createUseStyles(() => ({
   },
   sectionNumber: {
     position: "absolute",
-    left: 25,
-    top: -25,
-    width: 50,
-    height: 50,
-    fontSize: 30,
+    left: 35,
+    top: -35,
+    width: 70,
+    height: 70,
+    fontSize: 35,
     borderRadius: 50,
     backgroundColor: "#2266dd",
     color: "white",
@@ -57,7 +59,7 @@ const useStyles = createUseStyles(() => ({
   },
   section: {
     position: "relative",
-    marginBottom: 30,
+    marginBottom: 40,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -155,7 +157,7 @@ const useStyles = createUseStyles(() => ({
     justifyContent: "space-between",
     marginBottom: 20,
   },
-}));
+});
 
 const stickers = [img1, img2, img3, img4].map((url) => {
   const img = document.createElement("img");
@@ -187,7 +189,7 @@ function HomePage(props) {
       </section>
       <section className={classes.section}>
         <span className={classes.sectionNumber}>1</span>
-        <h2 className={classes.sectionTitle}>Step 1: Give it a name</h2>
+        <h2 className={classes.sectionTitle}>Give it a name</h2>
         <input
           className={classes.nameInput}
           type="text"
@@ -196,8 +198,8 @@ function HomePage(props) {
         />
       </section>
       <section className={classes.section}>
-      <span className={classes.sectionNumber}>2</span>
-        <h2 className={classes.sectionTitle}>Step 2: Select your sticker</h2>
+        <span className={classes.sectionNumber}>2</span>
+        <h2 className={classes.sectionTitle}>Select your sticker</h2>
         <div className={classes.stickers}>
           {stickers.map((el) => (
             <button
@@ -211,15 +213,15 @@ function HomePage(props) {
         </div>
       </section>
       <section className={classes.section}>
-      <span className={classes.sectionNumber}>3</span>
-        <h2 className={classes.sectionTitle}>Step 3: Slap yourself!</h2>
+        <span className={classes.sectionNumber}>3</span>
+        <h2 className={classes.sectionTitle}>Slap yourself!</h2>
         <div className={classes.flexContainer}>
           <span className={classes.sectionSubTitle}>Enable your camera: </span>
           <Toggle isChecked={isCameraOn} setIsCameraOn={setIsCameraOn} />
         </div>
         {isCameraOn && (
           <>
-            <video ref={handleVideoRef} className={classes.video} />
+            <video ref={handleVideoRef} className={classes.video} data-testid="video"/>
             <canvas
               ref={handleCanvasRef}
               width={2}
@@ -237,7 +239,7 @@ function HomePage(props) {
         <section className={classes.section}>
           <span className={classes.sectionNumber}>4</span>
           <h2 className={classes.sectionTitle}>
-            Step 4: Cherish this moment forever 📷
+            Cherish this moment forever 📷
           </h2>
           <div className={classes.gallery}>
             {pictures.slice(0, 4).map((pic) => (
@@ -248,7 +250,7 @@ function HomePage(props) {
                   <a href={pic.dataUri} download>
                     <img
                       src={download}
-                      classname={classes.downloadIcon}
+                      className={classes.downloadIcon}
                       title="Download"
                     />
                   </a>

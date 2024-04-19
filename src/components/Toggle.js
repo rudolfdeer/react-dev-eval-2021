@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createUseStyles } from "react-jss";
 
-const useStyles = createUseStyles(() => ({
+const useStyles = createUseStyles({
   toggle: {
     "-webkit-appearance": "none",
     "-moz-appearance": "none",
@@ -49,7 +49,7 @@ const useStyles = createUseStyles(() => ({
       left: 32,
     },
   },
-}));
+});
 
 function Toggle({ isChecked, setIsCameraOn }, ...props) {
   const classes = useStyles(props);
